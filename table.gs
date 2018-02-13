@@ -1,38 +1,20 @@
 function writeTable() {
   writeHeader();
-  writeUserRows();
+  writeRows();
 }
 
 function writeHeader() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  sheet.getRange(1, 1).setValue('Период:');
-  sheet.getRange(1, 2).setValue(formatDate(OPTIONS.datesRange[0]));
-  sheet.getRange(1, 3).setValue(formatDate(OPTIONS.datesRange[1]));
-
-  sheet.getRange(2, 2).setValue('Всего затрачено');
-  var colI = 3;
-  Object.keys(PROJECTS).forEach(function(projectId) {
-    sheet.getRange(2, colI++).setValue(PROJECTS[projectId].name);
-  });
+  sheet.getRange(1, 1).setValue('Проект');
+  sheet.getRange(1, 2).setValue('Всего затрачено');
 }
 
-function writeUserRows() {
+function writeRows() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var rowI = 3;
-  OPTIONS.users.forEach(function(user) {
-    sheet.getRange(rowI, 1).setValue(user.firstname + ' ' + user.lastname);
-    
-    var colI = 2;
-
-    // total time spent
-    sheet.getRange(rowI, colI++).setValue(sumTimeEntries(user.time_entries))
-
-    // time spent by project
-    Object.keys(PROJECTS).forEach(function(projectId) {
-      var val = sumTimeEntries(user.time_entries.filter(function(t) {return t.project.id === parseInt(projectId, 10);}));
-      sheet.getRange(rowI, colI++).setValue(val);
-    });
-
+  var rowI = 2;
+  Object.keys(PROJECTS).forEach(function(projectId) {
+    sheet.getRange(rowI, 1).setValue(PROJECTS[projectId].name);
+    sheet.getRange(rowI, 2).setValue(sumTimeEntries(PROJECTS[projectId].time_entries));
     rowI++;
   });
 }

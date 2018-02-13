@@ -1,6 +1,8 @@
 function main() {
   initOptions();
-  processKPIs();
+  initProjects();
+  //processKPIs();
+  countTotal();
   writeTable();
 }
 

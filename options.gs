@@ -16,8 +16,6 @@ function initOptions() {
     date.setHours(date.getHours() - 1 * date.getTimezoneOffset() / 60);
     return date;
   });
-  
-  if (!Array.isArray(OPTIONS.users)) OPTIONS.users = [OPTIONS.users];
 
   var sheetName = OPTIONS.datesRange.map(formatDate).join(' : ');
   var existingSheet = _ss.getSheetByName(sheetName);
